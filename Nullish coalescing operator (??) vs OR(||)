@@ -1,0 +1,32 @@
+(raw notes)  
+Nullish coalescing operator (??)
+
+if the left side operand is NULL or UNDEFINED, the right-hand side operand is returned.  
+const foo = null ?? 'default string'; console.log(foo); // Expected output: "default string"
+
+Nullish values are : NULL and Undefined
+
+Falsey values, these below are the only falesy values in JS
+
+Some more examples  
+false ?? "llo" -&gt; since the left hand side operand is not a nullish value -&gt; so the left hand side value is returned
+
+\=&gt; false
+
+false || "llo" -&gt; here the left side value is a falsey value so the right hand side value will be returned
+
+\=&gt;"llo"
+
+| Value | Type | Description |
+| --- | --- | --- |
+| [null](https://developer.mozilla.org/en-US/docs/Glossary/Null) | Null | The keyword [`null`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/null) — the absence of any value. |
+| [undefined](https://developer.mozilla.org/en-US/docs/Glossary/Undefined) | Undefined | [`undefined`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined) — the primitive value. |
+| `false` | Boolean | The keyword [`false`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar#reserved_words). |
+| [NaN](https://developer.mozilla.org/en-US/docs/Glossary/NaN) | Number | [`NaN`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NaN) — not a number. |
+| `0` | Number | The [`Number`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) zero, also including `0.0`, `0x0`, etc. |
+| `-0` | Number | The [`Number`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) negative zero, also including `-0.0`, `-0x0`, etc. |
+| `0n` | BigInt | The [`BigInt`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt) zero, also including `0x0n`, etc. Note that there is no [`BigInt`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt) negative zero — the negation of `0n` is `0n`. |
+| `""` | String | Empty [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) value, also including `''` and ` `` `. |
+| [`document.all`](https://developer.mozilla.org/en-US/docs/Web/API/Document/all) | Object | The only falsy object in JavaScript is the built-in [`document.all`](https://developer.mozilla.org/en-US/docs/Web/API/Document/all). |
+
+[https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Nullish\_coalescing](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing)

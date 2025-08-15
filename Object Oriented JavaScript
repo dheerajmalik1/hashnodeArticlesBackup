@@ -1,0 +1,189 @@
+//Kind of notes to myself
+
+Object is a collection of associated key/value pairs.
+
+const car = {
+  color: 'red',
+  year: 1992,
+  isPreOwned: true
+};
+
+
+
+
+Curly brackets are used to define the car object.
+
+Individual keys (e,g, color) are associated with a single value ('red' in this case). These key/value pairs are connected by a colon (:).
+
+Each distinct key/value pair, known as a property of that object, is separated from other 
+properties by a comma (,). The car object therefore contains three properties.
+
+Object Property Syntax
+Another thing to note is that keys (i.e., the names of the object's properties) are strings, but quotation marks surrounding these strings are optional as long as the string is also a valid Javascript identifier (i.e., you could use it as a variable name or function name). As a result, the following three objects are equivalent:
+
+const course = { courseId: 711 };    // ← no quotes around the courseId key
+const course = { 'courseId': 711 };  // ← single quotes around the courseId key
+const course = { "courseId": 711 };  // ← double quotes around the courseId key
+
+Accessing Object Properties
+So now that we know what objects look like, how do we retrieve information from them? In other words: how do we access their values? There are two ways: dot notation and square bracket notation.
+
+
+
+
+
+
+
+
+
+
+
+⚠️ Dot Notation Limitations ⚠️
+Note that while dot notation may be easier to read and write, it can't be used in every situation. For example, let's say there's a key in the above bicycle object that is a number. An expression like bicycle.1; will cause a error, while bicycle[1]; returns the intended value:
+
+bicycle.1;
+
+https://classroom.udacity.com/courses/ud711/lessons/504843ae-ba16-4573-a859-94da7a7d1dd4/concepts/2bbcfed5-e683-431b-ace2-b67c091400d2
+
+// Uncaught SyntaxError: Unexpected number
+
+bicycle[1];
+
+// (returns the value of the `1` property)
+Another issue is when variables are assigned to property names. Let's say we declare myVariable, and assign it to the string 'color':
+
+const myVariable = 'color';
+bicycle[myVariable]; returns 'blue' because the variable myVariable gets substituted with its value (the string 'color') and bicycle['color']'s value is 'blue'. However, bicycle.myVariable; returns undefined:
+
+bicycle[myVariable];
+
+// 'blue'
+
+bicycle.myVariable;
+
+// undefined
+It may seem odd, but recall that all property keys in a JavaScript object are strings, even if the quotation marks are omitted. With dot notation, the JavaScript interpreter looks for a key within bicycle whose value is 'myVariable'. Since there isn't such a key defined in the object, the expression returns undefined.
+
+Creating Objects
+
+To create a new, blank (i.e., “empty”) object, you can use object literal notation, or the Object() constructor function
+
+
+Note that delete directly mutates the object at hand
+
+Removing properties with DELETE operator return true.
+The delete operator removes a property from an object, and returns a boolean indicating successful deletion.
+
+Passing a Primitive
+In JavaScript, a primitive (e.g., a string, number, boolean, etc.) is immutable. In other words, any changes made to an argument inside a function effectively creates a copy local to that function, and does not affect the primitive outside of that function.
+
+How did this happen? Well, since objects in JavaScript are passed by reference, if we make changes to that reference, we're actually directly modifying the original object itself!
+
+On comparing two objects even if two objects are identical, equation will return true only of the reference are same, else it will not be equal.
+
+Primitives are immputable.
+ Function is mutable and not a primitive.
+
+
+developer.sayHello();
+// 'Hi there!'
+
+developer['sayHello']()
+
+
+Call Methods by Property Name 💡
+We've been using anonymous functions (i.e., functions without a name) for object methods. However, naming those functions is still valid JavaScript syntax. Consider the following object, greeter:
+
+const greeter = {
+  greet: function sayHello() {
+    console.log('Hello!');
+  }
+};
+Note that the greet property points to a function with a name: sayHello. Whether this function is named or not, greet is invoked the same way:
+
+greeter.greet();
+
+// 'Hello!'
+Named functions are great for a smoother debugging experience, since those functions will have a useful name to display in stack traces. They're completely optional, however, and you'll often read code written by developers who prefer one way or the other.
+
+. When you say this, what you're really saying is "this object" or "the object at hand."
+
+
+
+
+How the function is invoked determines the value of this inside the functions
+
+
+
+he window Object
+If you haven't worked with the window object yet, this object is provided by the browser environment and is globally accessible to your JavaScript code using the identifier, window. This object is not part of the JavaScript specification (i.e., ECMAScript); instead, it is developed by the W3C.
+
+This window object has access to a ton of information about the page itself, including:
+
+The page's URL (window.location;)
+The vertical scroll position of the page (window.scrollY')
+Scrolling to a new location (window.scroll(0, window.scrollY + 200); to scroll 200 pixels down from the current location)
+Opening a new web page (window.open("https://www.udacity.com/");)****
+
+
+
+Even though car.drive is a method, we're storing the function itself in the a variable letsRoll. Because letsRoll() is invoked as a regular function, this will refer to the window object inside of it.
+
+
+When a regular function is invoked, the value of this is the global window object.
+
+
+Since the window object is at the highest (i.e., global) level, an interesting thing happens with global variable declarations. Every variable declaration that is made at the global level (outside of a function) automatically becomes a property on the window object!
+
+Here we can see that the currentlyEating variable is set to 'ice cream'. Then, we immediately see that the window now has a currentlyEating property! Checking this property against the currentlyEating variable shows us that they are identical
+
+
+The keywords var, let, and const are used to declare variables in JavaScript. var has been around since the beginning of the language, while let and const are significantly newer additions (added in ES6).
+
+Only declaring variables with the var keyword will add them to the window object. If you declare a variable outside of a function with either let or const, it will not be added as a property to the window object.
+Similarly to how global variables are accessible as properties on the window object, any global function declarations are accessible on the window object as methods:
+
+Having a collection of just the words (i.e., the dictionary object's keys) may be particularly useful. While we could use a for...in loop to iterate through an object and build our own list of keys, it can get a bit messy and verbose. Thankfully, JavaScript provides an abstraction just for this!
+
+When Object.keys() is given an object, it extracts just the keys of that object, then returns those keys in an array:
+
+
+Object.keys() will return an array of strings and will return them in the same order as they would be when using a for loop.
+
+
+Object.values() will return the items in the same order as when using a for loop. and not return STRINGs as in case of object.keys
+
+In JS functions are first class objects, we can access property names of the function like functions.length give the length of input parameters of the function and functio ka name.name give the fucntions name which can also be usefull in building some function ality which would require us know the name of the fucntion passed in some other function 
+
+like functoin avg(){}
+
+we can access the fucntion ka name using avg.name()
+
+
+In many ways, a function in JavaScript can be treated as a value. Returning it from a function, storing it in a variable, and even passing it in as an argument into another function is perfectly allowed!
+
+
+
+Functions Can Return Functions
+Recall that a function must always return a value. Whether the value is explicitly specified in a return statement (e.g., returning a string, boolean, array, etc.), or the function implicitly returns undefined (e.g., a function that simply logs something to the console), a function will always return just one value.
+
+map()
+Array's map() method is similar to forEach() in that it invokes a callback function for each element in an array. However, map() returns a new array based on what's returned from the callback function
+
+Remember that the key difference between forEach() and map() is that forEach() doesn't return anything, while map() returns a new array with the values that are returned from the function:
+
+filter()
+Array's filter() method is similar to the map() method:
+
+It is called on an array
+It takes a function as an argument
+It returns a new array
+The difference is that the function passed to filter() is used as a test, and only items in the array that pass the test are included in the new array. Consider the following example:
+
+-----------------------------------------SCOPE------------------
+
+If you took Intro to Javascript, you learned about block scope vs. function scope. These determine where a variable can be seen in some code. Computer scientists call this lexical scope.
+
+However, there also exists another kind of scope called runtime scope. When a function is run, it creates a new runtime scope. This scope represents the context of the function, or more specifically, the set of variables available for the function to use.
+
+//This is still work in progress

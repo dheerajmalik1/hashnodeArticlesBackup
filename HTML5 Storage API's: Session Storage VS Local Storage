@@ -1,0 +1,86 @@
+![chrome-capture.jpg](https://cdn.hashnode.com/res/hashnode/image/upload/v1632236198066/nY9DrH2L0.jpeg align="left")
+
+**Session storage** But, first, what is session?
+
+Small story: A user enters the app -&gt; the session is started, as soon as user closes the window or closes the tab, the session ends -&gt; the data is lost.
+
+Session storage can hold larger amount of data as compared to cookies, in case of session storage you can also store around 5MB of data.
+
+**Local Storage** It is kind of similar to session storage, the only thing is it does not clear on its own, i.e it does not come with an expiry. It stays there in the storage even after the user has closed the tab or even the browser itself
+
+From memory point of view, generally(depending on the browser and device) localstorage has more memory than session storage and cookies.
+
+Although different scenarios might require different approach to save data, but getting data (not-so-relevant-for-saving-on-backend) from local storage is faster than making a network call and fetching data from backend.
+
+All these api follow same origin policy.(READ ABOUT THIS MORE) Same origin means - Protocol(eg https), HOST and Port remains the same.
+
+Local Storage is stored on the window object of the browser.
+
+Since it is a window object, we can access it in two ways
+
+1. Using window.localStorage.setItem("key","value""), this function accepts two arguments, a key and a value.
+    
+2. Directly calling the localStorage api, since it is a window object.
+    
+
+Example on localstorage
+
+![Screenshot from 2021-09-21 19-25-24.png](https://cdn.hashnode.com/res/hashnode/image/upload/v1632232601365/dPxXqB5pt.png align="left")
+
+Now if we check the local storage tab
+
+![Screenshot from 2021-09-21 19-27-23.png](https://cdn.hashnode.com/res/hashnode/image/upload/v1632232658234/nGaTQ3Kmm.png align="left")
+
+We can change this value by again calling the same function with **same key** like localStorage.setItem("empId", 102);
+
+To get item we can use, getItem method present on localStorage api by passing in the key
+
+localStorage.getItem("empId") //returns 102
+
+![Screenshot from 2021-09-21 19-31-11.png](https://cdn.hashnode.com/res/hashnode/image/upload/v1632232912554/-VlOoxW_T.png align="left")
+
+To remove an item from localStorage, we can use
+
+localStorage.removeItem("key")
+
+To completely clear the local storage we can use
+
+localStorage.clear(), this will completely clear the local storage
+
+If we try to access the item that is not present in the storage, "null" will be returned.
+
+From MDN:-
+
+> Storage objects are simple key-value stores, similar to objects, but they stay intact through page loads. The keys and the values are always strings (note that, as with objects, integer keys will be automatically converted to strings). You can access these values like an object, or with the Storage.getItem() and Storage.setItem() methods.
+
+So localStorage accepts keys and the values are always strings strings, in case of objects, integer **keys** will be automatically converted to strings.
+
+But what if we want our values to be objects or arrays, as we discussed keys and the values are always strings, so the browser tries to parse it as String, and we get \[object, Object\] as our output.
+
+localStorage.setItem("someObj", {name:"Dheeraj"}) //returns \[object Object\]
+
+![Screenshot from 2021-09-21 19-47-57.png](https://cdn.hashnode.com/res/hashnode/image/upload/v1632233915071/SaIbulYo7.png align="left")
+
+To overcome this we need to convert the item into string like :- localStorage.setItem("someObj", JSON.stringify({name:"Dheeraj"}))
+
+![Screenshot from 2021-09-21 19-55-55.png](https://cdn.hashnode.com/res/hashnode/image/upload/v1632234381621/_ebN4fls2.png align="left")
+
+As you can see when we try to get the data we are getting in the form of string So to get it in form form of JSON data we can do is,
+
+JSON.parse(localStorage.getItem("someObj"));
+
+![Screenshot from 2021-09-21 19-59-25.png](https://cdn.hashnode.com/res/hashnode/image/upload/v1632234577617/M3iZ-ifDH.png align="left")
+
+Session storage has almost same functionalities with just that data only persists for that particular session.
+
+Each **sessionstorage** area is allowed 5MB of storage (in some browsers 10MB). Whereas **cookies** only allow 4kb (or more in some browsers). Cookies however have a set expiration date.
+
+As [Christophe](https://stackoverflow.com/users/485406/christophe) wrote in the comments, **localstorage** never expires. **It's also shared across tabs and is the same size as sessionstorage (5MB).**
+
+//[https://stackoverflow.com/questions/15171711/expiration-of-sessionstorage](https://stackoverflow.com/questions/15171711/expiration-of-sessionstorage)
+
+\*\*Cookies \*\* Cookies work differently from session and local storage apis. **Cookies are sent to server every time a request is made to the server.**
+
+To create cookie,
+
+document.cookie = `name=Dheeraj`; *Article is still - work in progress*

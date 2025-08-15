@@ -1,0 +1,20 @@
+In this blog we will try to understand how do we get better code re-usability in Reactjs. I am trying to learn too, so if you find anything wrong or have a better suggestion for me, it is highly welcome. Lets get started
+
+From React's official - it is suggested to use composition instead of inheritance.
+
+It says
+
+> Some components don’t know their children ahead of time. This is especially common for components like Sidebar or Dialog that represent generic “boxes”. We recommend that such components use the special children prop to pass children elements directly into their output:
+
+```plaintext
+  return (
+    <div className={'FancyBorder FancyBorder-' + props.color}>
+      {props.children}
+    </div>
+  );
+}
+```
+
+What does this even mean?
+
+We will try to understand this with the help of code and some theory

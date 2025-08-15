@@ -1,0 +1,21 @@
+HTML template linking css and js
+I always forget the sytax of linking js and css files in html file
+
+so just putting it here for quick reference in future
+
+```bash
+<head>
+  <link rel="stylesheet" href="css/layout.css" type="text/css">
+</head>
+```
+
+and the Javascript file before the closing `</body>` tag
+
+```xml
+  <script type="text/javascript" src="script.js"></script>
+</body>
+```
+
+  
+also good links to read on why we put where we put  
+[https://stackoverflow.com/questions/6625773/where-should-i-put-the-css-and-javascript-code-in-an-html-webpage](https://stackoverflow.com/questions/6625773/where-should-i-put-the-css-and-javascript-code-in-an-html-webpage)

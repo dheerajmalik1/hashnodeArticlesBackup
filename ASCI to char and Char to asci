@@ -1,0 +1,7 @@
+ASCI to Char let output = String.fromCharCode(97 + j);
+
+//when j=0//output:a /when j=1//output:b and so on
+
+The method to convert numeric to character is String.fromCharCode(numeric)
+
+Converting Char to ASCI

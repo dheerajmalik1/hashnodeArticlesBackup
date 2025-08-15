@@ -1,0 +1,49 @@
+[https://www.perplexity.ai/search/what-is-lazy-loading-x5Nvc9JOTEKRMA5fgJkkIQ](https://www.perplexity.ai/search/what-is-lazy-loading-x5Nvc9JOTEKRMA5fgJkkIQ)  
+  
+**This type of loading is called "lazy" because it encourages a web browser to procrastinate.**  
+**\- damn, okay**
+
+  
+Lazy loading is a web and programming technique that delays the loading of non-essential resources—such as images, videos, or scripts—until they are actually needed by the user or the browser. Instead of loading all content when a page first opens (eager loading), lazy loading only loads resources if and when they are required, such as when the user scrolls down to view them or interacts with a specific part of the website.
+
+## Key Benefits
+
+* **Faster initial page load:** Only essential content loads first, letting users interact with the site sooner.
+    
+* **Reduced bandwidth usage:** Resources aren’t loaded unless necessary; this is especially useful for image- or video-heavy sites.
+    
+* **Improved user experience:** Pages load more quickly, even on slower connections.
+    
+* **Optimized resource utilization:** Less memory and processing power used up front.
+    
+
+## Common Use Cases
+
+* Long web pages with many images or videos
+    
+* Infinite scroll feeds, news sites, or product listings
+    
+* Mobile sites where bandwidth and processing are limited
+    
+
+## Lazy Loading vs. Eager Loading
+
+| **Feature** | **Lazy Loading** | **Eager Loading** |
+| --- | --- | --- |
+| When resources load | When needed (e.g., as the user scrolls or interacts) | Immediately at page/application startup |
+| Initial load time | Faster | Slower |
+| Bandwidth usage | Lower | Higher |
+| Implementation | More complex (requires extra logic) | Simpler |
+| Best use case | Pages with non-essential resources, media-heavy sites | Small sites needing all content upfront |
+
+Lazy loading is ideal for web applications and pages that are resource-heavy or have lots of content that isn't needed immediately. It improves loading times, saves bandwidth, and enhances performance, especially on devices with limited resources.  
+  
+[https://www.cloudflare.com/learning/performance/what-is-lazy-loading/](https://www.cloudflare.com/learning/performance/what-is-lazy-loading/)  
+  
+**How to implement lazy loading for images**
+
+One way to implement lazy loading is to use the HTML attribute loading in an image tag. Adding `loading="lazy"`, as in the example below, tells the browser to wait to load the image until the user scrolls close to it:
+
+```plaintext
+<img src="example.com/image" alt="example image" width="100" height="100" loading="lazy">
+```

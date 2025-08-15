@@ -1,0 +1,233 @@
+🔰 STEP 0: You make a function
+
+jsCopyEditfunction A() {}
+
+Behind the scenes, JavaScript automatically gives this function a property called prototype:
+
+jsCopyEditconsole.log(A.prototype); 
+// → { constructor: A }
+
+So:
+
+A is a function.
+
+A.prototype is a plain object that looks like this:
+
+jsCopyEdit{
+  constructor: A
+}
+
+🔰 STEP 1: You create an object using new
+
+jsCopyEditconst a = new A();
+
+Here’s what new A() actually does behind the scenes:
+
+🔍 JavaScript internally does:
+
+Creates a new empty object: {}
+
+Links that object's internal [[Prototype]] to A.prototype
+
+Calls the function A with this = the new object
+
+Returns the new object
+
+🧠 Visual of What Happens
+
+jsCopyEditconst a = new A();
+
+Now:
+
+jsCopyEdita.__proto__ === A.prototype  // true
+
+Which means:
+→ the object a inherits from A.prototype
+
+That’s the relationship:
+👉 new connects a.__proto__ to A.prototype
+
+✍️ Even Without Any Methods, It Still Links:
+
+jsCopyEditfunction A() {}
+const a = new A();
+
+console.log(a.__proto__ === A.prototype); // true
+
+🔨 Now Add Something to A.prototype
+
+jsCopyEditA.prototype.sayHello = function () {
+  console.log("Hello!");
+};
+
+a.sayHello(); // Hello!
+
+Even though a doesn’t have sayHello, it finds it through the link:
+
+a.__proto__ → points to A.prototype
+
+So a.sayHello() works
+
+🧩 Final Mental Model:
+
+jsCopyEditfunction A() {}
+A.prototype.sayHi = function () { console.log("hi"); };
+
+const a = new A(); // ← sets a.__proto__ = A.prototype
+
+// So JS looks like:
+a
+  └── __proto__ → A.prototype
+                       └── sayHi()
+
+✅ TL;DR
+
+You Write
+
+JS Internally Does
+
+new A()
+
+→ creates {}
+
+→ sets obj.__proto__ = A.prototype
+
+→ calls A() with this = obj
+
+→ returns the object
+
+So new links the object to A.prototype, and that's how methods are inherited.
+
+If you’re now curious how class syntax wraps this, I can explain that too — no fluff. But if you're good now, I’ll stop here.
+
+what is difference bw Links that object's internal [[Prototype]] to A.prototype
+
+Ah, now that’s a very sharp and important question — let’s tackle it directly:
+
+“What is the difference between:
+
+Links that object's internal [[Prototype]]
+and
+
+A.prototype?”
+— And how are they connected?”
+
+✅ Short Answer:
+
+A.prototype is just a normal object attached to the function A.
+
+[[Prototype]] is a hidden internal link inside every object that tells JS where to look when a property is not found.
+
+When you do new A(), the object’s [[Prototype]] is set to A.prototype — this creates the inheritance link.
+
+🧠 Let's break it down, step by step:
+
+🔧 1. What is A.prototype?
+
+It's a property that exists on every function (constructor functions, specifically).
+
+It's meant to hold shared methods.
+
+Example:
+
+jsCopyEditfunction A() {}
+console.log(typeof A.prototype); // "object"
+
+jsCopyEditA.prototype.sayHi = function () {
+  console.log("hi");
+};
+
+🔧 2. What is [[Prototype]]?
+
+It's an internal, hidden link inside every object.
+
+It points to the object you want to inherit from.
+
+It's what JavaScript walks through when it looks for a property.
+
+You can access it like this:
+
+jsCopyEditconst a = new A();
+console.log(a.__proto__); // same as a.[[Prototype]]
+
+🧠 Now the connection:
+
+jsCopyEditfunction A() {}
+
+const a = new A();
+
+Internally, JavaScript does:
+
+jsCopyEdita.[[Prototype]] = A.prototype;
+
+In developer terms:
+
+jsCopyEdita.__proto__ === A.prototype; // true
+
+So when you do:
+
+jsCopyEdita.sayHi();
+
+JS checks:
+
+Is sayHi on a? ❌
+
+Check a.__proto__ → which is A.prototype ✅
+
+Found sayHi → call it
+
+⚙️ Visual Map
+
+luaCopyEditFunction: A
+├── .prototype ──┬── sayHi()
+│                └── constructor: A
+│
+Object: a
+└── [[Prototype]] → A.prototype
+
+📘 Analogy:
+
+A.prototype is the blueprint (shared object).
+
+[[Prototype]] is the link (pointer) from the new object to that blueprint.
+
+🔗 new A() sets the new object’s [[Prototype]] = A.prototype
+
+✅ TL;DR Summary
+
+Term
+
+What it is
+
+Who owns it
+
+Purpose
+
+A.prototype
+
+An object
+
+Owned by function A
+
+Blueprint for new objects
+
+[[Prototype]]
+
+Hidden link inside objects
+
+Owned by the created object (e.g., a)
+
+Tells JS where to look when a property is missing
+
+__proto__
+
+Public getter for [[Prototype]]
+
+On all objects
+
+Lets you access/change prototype chain (not recommended to use directly)
+
+Let me know if you want to now see how class and extends use the same mechanism, or if you want to practice with a couple simple inheritance examples.
+
+The prototype is a property on a constructor function.
+When you use new, the object’s [[Prototype]] is set to that .prototype, so that object can inherit methods and also trace back to its constructor via .constructor.

@@ -1,0 +1,152 @@
+name value pairs: A name may have been defined more than once, but can have only one value at any given context.(ie the section of code that is currently running)
+
+In JS: object is a collection of name value pairs.
+
+JS engine gives us two things whenever JS is executed on is "this" and other is "globa object"
+
+
+
+so every tab you open will have its own window object
+
+At a global level this == window(global in case of nodejs)
+
+Code NOT inside a function == global
+
+js is executed in 2 phases
+
+(creation phase)in first phase js engine sets aside memory for variable and functions to be executed --- till this functions and their definitions have been hoisted
+but for variable since js does not know what value will be for the variable in the end there only the declarations are hoisted. Therefore we get undefined when we 
+
+(execuation phase)code is read line by line
+
+function invocation 
+as soon as js is executed a global execution phase is wrapped around
+
+when function is called it stacks over the global execution... this stack is called execution stack which contains all the function execution contexts and a global execution context.
+
+
+![Screenshot from 2021-02-07 01-07-30.png](https://cdn.hashnode.com/res/hashnode/image/upload/v1612640296128/gtegn5OWf.png)
+
+for every function invocation there will be a creation phase and execution phase ie they will have their own execution contexts
+
+![Screenshot from 2021-02-07 01-10-16.png](https://cdn.hashnode.com/res/hashnode/image/upload/v1612640432509/LbGx3_OgO.png)
+
+The lexical context (physical position)wont matter, functions will be stacked according to their invocations... (in execution stack) --- we are only talking about stacking here--
+during the global execution phase all function have already been hoisted
+but for each invocation a new execution context for each function is created and pushed on the stack(both creation phase and execution phase will happen for each invocation)
+
+Remember undefined is a value in js. 
+
+function b() {
+	var myVar;
+    console.log(myVar);
+}
+
+function a() {
+	var myVar = 2;
+    console.log(myVar);
+	b();
+}
+
+var myVar = 1;
+console.log(myVar);
+a();
+console.log(myVar);
+
+output:
+//1
+//2
+//undefined
+//1
+
+eg 2 for global scope chain
+function b() {
+	
+    console.log(myVar);
+}
+
+function a() {
+	var myVar = 2;
+    console.log(myVar);
+	b();
+}
+
+var myVar = 1;
+console.log(myVar);
+a();
+console.log(myVar);
+
+1
+2
+1
+1
+
+
+//The scope chain
+function b() {
+	
+    console.log(myVar);
+}
+
+function a() {
+	var myVar = 2;
+    
+	b();
+}
+
+var myVar = 1;
+
+a();
+function b is (physically)(lexically)present on top ie in global therefore we are getting the global value(because it could not find the value within func b)  of myVar because the outer env physically or lexically is global env 
+Lexically the function b is sitting in the global env right now
+
+![Screenshot from 2021-02-07 13-43-05.png](https://cdn.hashnode.com/res/hashnode/image/upload/v1612685602641/0SNpyZoqD.png)
+
+
+Asynchronous: simply means running more than one at a time
+
+but js is synchronous
+
+Whatever is happing inside JS Engine is synchronous
+So how do we are able to use async stuff in browser
+
+That is because browsers does not "only" contains js engine
+
+It alse include redering engine, HTTP req/res elements... the engine is sort just having hooks attached to these
+
+eg for events that are outside scope of js engine but part of somewhere in the browser.. these events are stored in event queue which wait for the stack to empty to put the methods called by those events to be put back on stack, 
+
+![Screenshot from 2021-02-07 14-41-39.png](https://cdn.hashnode.com/res/hashnode/image/upload/v1612689112411/W6PIxDLcJ.png)
+
+JS objects and JSON
+
+javascript obj and json are different things dont confuse them with each other
+earlier we used to send/receive data in form of xml, but now, inspired from js object literals data is sent in form of json
+
+{
+   "property":"Value"
+}
+
+note that in json properties are also wrapped in double quotes.
+
+To work work with json and objects there are some predefined methods which make converting json to object and objects to json easier like
+
+var obj = {name:"Dheeraj"}
+
+console.log(JSON.stringify(obj));// this will conver object to JSON string ie {"name":"Dheeraj"}
+
+To convert JSON to obj we can use
+var jsonValue = JSON.parse('{"firstname":"Mary", "isAprogrammer":true}');
+
+Functions are objects
+
+![Screenshot from 2021-02-08 06-54-25.png](https://cdn.hashnode.com/res/hashnode/image/upload/v1612747493555/5ZP7H38KY.png)
+
+By value and By reference
+
+By value
+![Screenshot from 2021-02-09 00-40-32.png](https://cdn.hashnode.com/res/hashnode/image/upload/v1612811502589/_j9zWHiBF.png)
+
+
+By refernce
+![Screenshot from 2021-02-09 00-41-03.png](https://cdn.hashnode.com/res/hashnode/image/upload/v1612811505631/90sP44mAD.png)

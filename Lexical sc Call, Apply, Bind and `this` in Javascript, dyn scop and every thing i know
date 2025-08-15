@@ -1,0 +1,231 @@
+[https://www.youtube.com/watch?v=hwoU8NCICSE](https://www.youtube.com/watch?v=hwoU8NCICSE). - Chirag Goel =&gt; call, apply, bind
+
+[https://www.youtube.com/watch?v=A9-7Hv4wAvM&t=3s](https://www.youtube.com/watch?v=A9-7Hv4wAvM&t=3s)
+
+| **Scenario** | **What** `this` refers to | **Example Output** |
+| --- | --- | --- |
+| Object Method | The object | "Hi! My name is Alice" |
+| Regular Function | Global object (`window`) | `[object Window]` |
+| Function (strict mode) | `undefined` | `undefined` |
+| Constructor (`new`) | New instance (object) | `Cat` |
+| DOM Event Handler | HTML element | Button element `[object HTMLButtonElement]` |
+| Using `call`/`apply`/`bind` | Object passed as argument | `Hello, Bob`; `22`; `Hi from bind!` |
+| Arrow Function | Enclosing (outside) scope | `red` (from surrounding object context) |
+| Transferred Method | Caller object | `meow` (cat); `woof` (dog) |
+| Class Method | The instance of the class | `Superman saves the day!` |
+
+**JS is lexically scoped → also can be said it is statically scoped | same thing**
+
+**also do not confuse scoping with typing**  
+**statically scoped and statically typed are 2 different things**
+
+Lexy means - to read (to read code) in this case the place where the code is written  
+JS compilers have something called a lexer
+
+Absolutely! Here’s an English explanation of **static (lexical) scoping** vs **dynamic scoping**, how variables are found, and what happens with memory—**all in a language-neutral way and with simple diagrams in mind**:
+
+## **1\. Static (Lexical) Scoping**
+
+**What is it?**  
+Static (or lexical) scoping means: "Where a variable comes from is decided by how your code is written — by its structure, when you write the code (not when the program is running)."
+
+* The **lookup path** is determined at "compile time" just by looking at the code.
+    
+* Most languages today (like JavaScript, Python, C, Java) use this model!
+    
+
+## **How does it find variables?**
+
+* Imagine every function or block is a **box** with its own variables inside.
+    
+* If you need a variable, the program looks in your own box first.
+    
+* If it doesn’t find it, it moves up, to the box where this code is “nested inside,” and so on, up the chain.
+    
+* It always follows this **nesting, as shown in how the code is written**, regardless of how functions are called.
+    
+
+**Example:**  
+Suppose you have these *nesting* boxes:
+
+```plaintext
+textGlobal Box
+ └─ Function foo Box
+     └─ Function bar Box
+```
+
+* If code in **bar** wants a variable, it looks:
+    
+    1. Inside bar’s box,
+        
+    2. Then inside foo’s box,
+        
+    3. Then global box—but NEVER anywhere else.
+        
+
+**It does NOT matter who called bar, only where it was written.**
+
+jslet a = 1; function outer() { let b = 2; function inner() { let c = 3; console.log(a, b, c); } return inner; } let fn = outer(); // Step 1 fn(); // Step 2
+
+## **1\. Compile Time (“Preparation Phase”)**
+
+**The JS engine reads the code and builds a “lexical environment” tree:**
+
+* Global scope is noted to have:
+    
+    * Variable: `a`
+        
+    * Function: `outer`
+        
+* `outer` is noted to have:
+    
+    * Variable: `b`
+        
+    * Function: `inner`
+        
+* `inner` is noted to have:
+    
+    * Variable: `c`
+        
+
+**Everything “knows” its parent block:**
+
+* `inner`'s parent is `outer`
+    
+* `outer`'s parent is global
+    
+
+No actual values are assigned yet!  
+Just the map:
+
+```plaintext
+text[Global]
+ ├── a
+ └── outer()
+      ├── b
+      └── inner()
+           └── c
+```
+
+---
+
+## **2\. Runtime (“Execution Phase”)**
+
+## **Step 1:** `let fn = outer();`
+
+* A new **‘outer’ execution context** is made:
+    
+    * New variable environment with `b`.
+        
+* `outer` executes and returns the `inner` function.
+    
+
+**Closures**:
+
+* The returned `inner` function maintains a reference to *its lexical environment*, i.e., it “remembers” both `b` (from `outer`) and `a` (from global), even after `outer`'s execution is finished.
+    
+
+## **Step 2:** `fn();` (which is actually `inner()`)
+
+* A new **‘inner’ execution context** is made:
+    
+    * New variable environment with `c`.
+        
+
+Now, JS wants to resolve `console.log(a, b, c);`:
+
+## **Variable Lookup Chain (Scope Chain — built at compile-time)**
+
+1. **Is** `c` **here?**  
+    Yes, it’s inside `inner` (current environment) → use it.
+    
+2. **Is** `b` **here?**  
+    Not in `inner`, but `inner`’s parent is `outer` (set at compile time).  
+    Found! Use the `b` from `outer`.
+    
+3. **Is** `a` **here?**  
+    Not in `inner` or `outer`, but `outer`’s parent is global (set at compile time).  
+    Found in global! Use it.
+    
+
+**No matter from where** `fn` **is called, it always refers to the scope chain established by where they were written.**
+
+## **Visual: What actually exists in memory?**
+
+At the moment you call `fn()`, the memory reference tree is:
+
+```plaintext
+text[Global Lexical Environment]
+ ├── a: 1
+ ├── outer
+ └── fn
+     └── closure ↘
+          [outer Lexical Environment]
+             └── b: 2
+                 └── inner closure ↘
+                   [inner Lexical Environment]
+                     └── c: 3
+```
+
+* Each environment “closes over” its parent, forming a chain **set by code structure**, not call order.
+    
+
+## **Key Takeaways (Specific to JavaScript)**
+
+* **Compile time:** The scope chain is determined.
+    
+* **Runtime:** New execution contexts use these pre-established chains to resolve variable lookups.
+    
+* The lookup never depends on "who called me"; it depends only on "where was I written?" (static/lexical scope).
+    
+
+> ***If you want a more detailed step-by-step walkthrough (showing stack frames, what’s in memory at each line, or want to try a more complex example), just tell me what you’d like to focus on!***
+
+This is a very insightful question! It might *seem* like the `this` keyword works similarly to **dynamic scoping** because its value changes depending on *how* a function is called at runtime, not just where it was written. But here's the important distinction:
+
+## Doesnot that make it dynamically scoped then
+
+**Why** `this` in JavaScript Is **Not** Dynamic Scoping
+
+This is a very insightful question! It might *seem* like the `this` keyword works similarly to **dynamic scoping** because its value changes depending on *how* a function is called at runtime, not just where it was written. But here's the important distinction:  
+**Dynamic scoping** means:
+
+> ***Variable lookup follows the call stack at runtime — a variable refers to the most recent definition along the caller chain, not the code structure.***
+
+**With** `this`**,**
+
+* It is **not a variable resolved via scope chains** (like `var`, `let`, or `const` bindings).
+    
+* Instead, `this` **is a special property of the function execution context** — its value is set each time a function is called **based on *how* (and with what object) the function is called**.
+    
+
+So, `this` **is not bound through scope rules but through invocation context.**
+
+* The *scope* for variables in JavaScript is always **static/lexical**.
+    
+* The value of `this` is assigned at *runtime per call*, but this is an aspect of function context, not variable resolution through dynamic scoping.
+    
+
+## **Key Differences**
+
+|  | **Variable Lookup (**`a`, `b`, `c`) | `this` Keyword |
+| --- | --- | --- |
+| Scoping | **Lexical/Static** | **Call-time context (dynamic binding)** |
+| Decided | At compile time (code structure) | At runtime (by call style/object) |
+| Changes | Never (regardless of how called) | Yes (depends on how called, with which object, via `call`/`apply`, as a method, etc.) |
+| Example | Closures, scope chains | Dynamic method calls, constructors |
+
+## **So:**
+
+* **Dynamic scoping** = variables themselves follow runtime call stack — *JavaScript does NOT do this* for variables.
+    
+* `this` = *not* a variable resolved through scopes; it is set per-invocation to the relevant object or context.
+    
+
+**In summary:**  
+Although `this` is set dynamically at runtime, it's not the same thing as dynamic scoping. JavaScript **always uses static (lexical) scoping** for variable resolution. `this` is a separate runtime binding concept, tied to the invocation, not scoping rules.  
+——— ——- ——
+
+[https://piccalil.li/blog/javascript-when-is-this/](https://piccalil.li/blog/javascript-when-is-this/)
+
+best one, as alwats → [https://dmitripavlutin.com/gentle-explanation-of-this-in-javascript/](https://dmitripavlutin.com/gentle-explanation-of-this-in-javascript/)
